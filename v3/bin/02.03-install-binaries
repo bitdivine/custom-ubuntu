@@ -1,0 +1,22 @@
+#!/usr/bin/env bash
+
+set -x
+set -o errexit
+set -o nounset
+set -o pipefail
+# shellcheck disable=SC1090
+. "$(dirname "$(readlink -f "$0")")"/constants
+
+: Install Rust
+rust_root="$(git rev-parse --show-toplevel)"
+(
+	cd "$rust_root"
+	cargo build --release
+)
+code_dir="${IMG_DIR}/${TARGET_ROOTFS_SUBDIR}/${OXY_BIN_SUBDIR}"
+sudo mkdir -p "${code_dir}"
+find "$rust_root/target/release" -maxdepth 1 -executable -type f | sudo xargs -I{} install -o root -m 755 "{}" "${code_dir}/"
+
+: Install HTML
+www_dir="${IMG_DIR}/${TARGET_ROOTFS_SUBDIR}/${OXY_WWW_SUBDIR}"
+rsync -vrl "$(git rev-parse --show-toplevel)/src/XXXX-noah-ui-server/client/" "${www_dir}"

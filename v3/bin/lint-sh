@@ -1,0 +1,3 @@
+#!/usr/bin/env bash
+cd "$(dirname "$(realpath "$0")")/.." || exit 1
+git ls-files | while read -r line; do if [[ "$line" =~ [.]sh$ ]] || head -n1 "$line" | grep -qw bash || [[ "$(basename "$line")" == ".bash_profile" ]] || [[ "$(basename "$line")" == ".profile" ]]; then echo "$line"; fi; done | xargs shellcheck -e SC1090 -e SC2119 -e SC1091

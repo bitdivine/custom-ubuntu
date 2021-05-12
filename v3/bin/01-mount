@@ -1,0 +1,15 @@
+#!/usr/bin/env bash
+
+set -x
+set -o errexit
+set -o nounset
+set -o pipefail
+# shellcheck disable=SC1090
+. "$(dirname "$(readlink -f "$0")")"/constants
+
+mkdir "$WORK_DIR"
+sudo mkdir -p "$IMG_DIR.original"
+sudo mount -r "$ORIGINAL_ISO" "$IMG_DIR.original"
+sudo cp -r "$IMG_DIR.original" "$IMG_DIR"
+sudo umount "$ORIGINAL_ISO"
+sudo rmdir "$IMG_DIR.original"

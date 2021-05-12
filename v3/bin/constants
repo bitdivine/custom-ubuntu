@@ -1,0 +1,32 @@
+set -x
+
+# FORGE_      == this codebase for creating images
+# INSTALLER_  == the boot stick
+# TARGET_     == the tablet onto which the operating system is being installed
+
+# _ISO        == ISO file
+# _DIR        == directory, absolute, starts with /
+# _SUBDIR     == directory, relative, starts without /
+
+SCRIPT_DIR="$(dirname "$(readlink -f "$0")")"
+FORGE_HOME_DIR="$(dirname "$SCRIPT_DIR")"
+
+# Images
+WORK_DIR="$PWD/tmp"
+DOWNLOADS_DIR=$HOME/Public/torrents/
+IMG_TEMPLATE_NAME=ubuntu-20.04.2-live-server-amd64
+IMG_NAME=$IMG_TEMPLATE_NAME.iso
+ORIGINAL_ISO=$DOWNLOADS_DIR/$IMG_NAME
+IMG_DIR=$WORK_DIR/img
+INSTALLER_ISO=$WORK_DIR/installer-img.iso
+TARGET_ISO=$WORK_DIR/target-img.iso
+NETWORK="-device e1000,netdev=net0 -netdev user,id=net0,hostfwd=tcp::6022-:22"
+
+# Data to put in the images
+INSTALLER_ROOTFS_SUBDIR="src"         # In the source code, files here are copied into the installer.
+TARGET_ROOTFS_SUBDIR="nocloud/rootfs" # On the installer image, files in here are copied onto the final image.
+
+# Locations in the target dir
+OXY_INSTALL_SUBDIR="opt/XXXX"
+OXY_BIN_SUBDIR="${OXY_INSTALL_SUBDIR}"
+OXY_WWW_SUBDIR="opt/XXXX/client"

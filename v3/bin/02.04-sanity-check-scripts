@@ -1,0 +1,10 @@
+#!/usr/bin/env bash
+
+set -x
+set -o errexit
+set -o nounset
+set -o pipefail
+# shellcheck disable=SC1090
+. "$(dirname "$(readlink -f "$0")")"/constants
+
+find "${FORGE_HOME_DIR}/${INSTALLER_ROOTFS_SUBDIR}" -type f | grep -E '[.]sh$' | xargs shellcheck

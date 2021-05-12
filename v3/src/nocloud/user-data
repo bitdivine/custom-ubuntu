@@ -1,0 +1,20 @@
+#cloud-config
+apt_get_command: ["apt-get", "--option=Dpkg::Options::=--force-confold", "--option=Dpkg::options::=--force-unsafe-io", "--assume-yes", "--quiet", "--no-install-recommends"]
+autoinstall:
+  version: 1
+  keyboard: {layout: us, toggle: null, variant: ''}
+  locale: en_US
+  identity:
+    hostname: oxpad
+    password: "$6$exDY1mhS4KUYCE/2$zmn9ToZwTKLhCw.b4/b.ZRTIZM30JZ4QrOQ2aOXJ8yk96xpcCof0kxKwuX1kqLG/ygbJ1f8wxED22bTL4F46P0"
+    username: ox
+  ssh:
+    install-server: yes
+    authorized-keys:
+      - "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABgQC0SicPoYbSZF1WkOTz7YQey/v7zcRchBM4G6XsWGsNrweG6NkGB4oBFGk0ut+1O2mTJNZK8fDLRxFNQgyQGk8i4VxrwroCdrmu2cuhOYIFcgE62UApV8VvMEtWW2fPlBSkzSOFGSlX7cWVJDybFvFadKcrVGbY7aIEYYg8b+usdemXaSnQ94zIR+1K/aXKcFOAw8Pckw2yiFByiAq+Uc53PK6UJdq22JroWP1VZWnPJOSuibn+x4iThrgoQOzPJ0UsmbyoysxzoAHfq7Fpo0rA595+3/0bKF2AxiyZ20c9ZGloSgIOYcvBuBVBjdW1URNTZ4q0JPj1kuzo6h24F/08oBwNjnPZKQI15ak4lU7xUXOnjaxBcTPolt0T+ipoGE+xdJgtdllIcD3c83fXMDml/3yGmnE9zUehDtwWmzm/DGn1KfR7UiB3WoDo0ywy4dhlgrdJU6FTcNgg7x11XrrIM6NyE1kfqjgVUK6Z+keslkwj7kMXLlVPC7KWqIih/K8= max@swift"
+    allow-pw: no
+  user-data:
+    disable_root: false
+  late-commands:
+    - rsync -avzr /cdrom/nocloud/rootfs/ /target/
+    #- curtin in-target --target=/target -- bash /nocloud/packages.sh

@@ -1,0 +1,9 @@
+# Display
+xserver-xorg-video-all xserver-xorg-input-all xserver-xorg-core xinit x11-xserver-utils
+unclutter # Remove mouse pointer when not needed
+
+# App
+chromium-browser
+
+# Maintenance tools
+vim

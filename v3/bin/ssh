@@ -1,0 +1,2 @@
+ssh -o StrictHostKeyChecking=no ox@localhost -p 6022
+

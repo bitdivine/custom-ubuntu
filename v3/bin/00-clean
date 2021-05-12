@@ -1,0 +1,12 @@
+#!/usr/bin/env bash
+
+set -x
+set -o errexit
+set -o nounset
+set -o pipefail
+# shellcheck disable=SC1090
+. "$(dirname "$(readlink -f "$0")")"/constants
+
+sudo umount "$ORIGINAL_ISO" || true
+sudo rm -fr "${WORK_DIR:-not-what-you-were-looking-for}"
+./bin/99.02-stop-serving-cloudconfig

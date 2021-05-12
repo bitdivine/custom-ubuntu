@@ -1,0 +1,3 @@
+figlet -t "$(echo "installer image ready" | sed 's/ /     /g')"
+figlet -t -c -f block ""  "$(git rev-parse --short HEAD)" | tr "_|" '#'
+figlet -t -r "" "$(echo "BURN SOME DISKS" | sed 's/ /     /g')"

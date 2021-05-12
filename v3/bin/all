@@ -1,0 +1,6 @@
+set -eu
+find bin/ | grep -E 'bin/[0-8][0-9]' | sort | while read line ; do
+	echo "================= $line =============="
+	date
+	time bash "$line"
+done

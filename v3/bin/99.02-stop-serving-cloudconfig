@@ -1,0 +1,3 @@
+set -eux
+pid="$(ss -ltpn | grep :3003 | sed -rn 's/.*pid=([0-9]+).*/\1/g;ta;b;:a;p')"
+test -z "${pid:-}" || kill -9 $pid

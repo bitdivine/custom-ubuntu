@@ -1,0 +1,34 @@
+#!/bin/sh
+
+echo Starting OxBox installer...
+
+set -eux
+
+cd /debs
+
+packages="$(sed 's/#.*//g' required)"
+
+
+test -f installed || {
+	echo "Waiting for time..."
+	while ! wget "https://google.com" ; do sleep 4 ; done
+	sleep 4
+        apt-get update
+}
+
+test -f required-dependencies || {
+	apt-get install --dry-run $packages | sed -nr ':d;/The following NEW packages will be installed:/{:a;n;/^ /{p;ba};bb};:b;/The following packages will be upgraded:/{:c;n;/^ /{p;bc};bd}' > required-dependencies
+}
+
+test -f downloaded || {
+	apt-get download $(cat required-dependencies)
+	touch downloaded
+}
+
+test -f installed || {
+    dpkg -iRE .
+    touch installed
+    shutdown -r now
+}
+
+echo FIN
